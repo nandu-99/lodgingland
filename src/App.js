@@ -3,7 +3,6 @@ import Home from "./components/homepage";
 import SignIn from './components/signin';
 import SignUp from './components/signup';
 import "./index.css";
-// import HotelCard from "./components/hotelcard";
 
 
 function App() {

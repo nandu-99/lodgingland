@@ -11,7 +11,7 @@ function Home() {
       {!isChildRoute && (
         <>
       <div className="bg-[#003B95] h-[331px] p-[30px] pl-[64px]">
-        <div className="flex flex-col self-start mt-32 max-md:mt-10 max-md:max-w-full">
+        <div className="flex flex-col self-start mt-32 max-md:mt-20 max-md:max-w-full">
           <h1 className="text-5xl text-slate-100 max-md:max-w-full max-md:text-4xl">
             Find your next stay
           </h1>
@@ -20,7 +20,7 @@ function Home() {
           </h2>
         </div>
       </div>
-      <div className="z-100 p-2 ml-[60px]">
+      <div className="z-100 p-2 ">
             <SearchBar/>
       </div>
       </>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
   const [username, setUsername] = useState("");
@@ -10,7 +11,7 @@ function SignUp() {
   const handleSignUp = (e) => {
     e.preventDefault();
     if (!username || !email || !password) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields");
       return;
     }
     fetch("https://academics.newtonschool.co/api/v1/user/signup", {
@@ -30,13 +31,13 @@ function SignUp() {
       .then((response) => response.json())
       .then((data) => {
         if (data.status=="success") {
-          alert("User Created");
+          toast.success("User Created");
         } else {
-          alert(data.message);
+          toast.error(data.message);
         }
       })
       .catch((error) => {
-        alert("Error creating user");
+        toast.error("Error creating user");
       });
   };
 
@@ -120,6 +121,7 @@ function SignUp() {
           </div>
         </form>
       </div>
+      <ToastContainer/>
     </div>
   );
 }

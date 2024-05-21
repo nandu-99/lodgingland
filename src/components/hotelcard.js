@@ -1,5 +1,4 @@
 import * as React from "react";
-import hotel from "../Images/hotel.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,14 +6,14 @@ const ImageWithAlt = ({ src, alt, className }) => (
   <img loading="lazy" src={src} className={className} alt={alt} />
 );
 
-const InfoSection = ({rating,room}) => (
+const InfoSection = ({rating,avgprice,room}) => (
   <section className="flex lg:self-center lg:mt-0 mt-4 md:mt-16">
     <div className="flex items-center justify-between gap-20 w-full max-w-md lg:flex-col lg:items-start lg:gap-0">
       <div className="flex gap-3 items-center ">
         <p className="bg-[#003B95] text-white text-xs p-2">Rating: {rating}</p>
       </div>
       <div className="flex flex-col justify-center align-center mt-8 gap-2">
-        <p className="text-lg text-neutral-700">Rs.{room.price}</p>
+        <p className="text-lg text-neutral-700">Rs.{avgprice.toFixed(0)}</p>
         <p className="text-xs text-neutral-400">+ Rs.{room.costDetails.taxesAndFees} taxes and charges</p>
       </div>
     </div>
@@ -45,7 +44,7 @@ const HotelCard = ({hotelInfo, room}) => {
             </div>
           </div>
         </div>
-        <InfoSection rating={hotelInfo.rating} room={room} />
+        <InfoSection rating={hotelInfo.rating} avgprice={hotelInfo.avgCostPerNight} room={room} />
       </div>
     </div>
   );

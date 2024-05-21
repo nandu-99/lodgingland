@@ -1,108 +1,18 @@
-// import React, { useState, useEffect } from 'react';
-// import { Link, useLocation } from 'react-router-dom';
-// import { Outlet } from "react-router-dom";
-
-// const ButtonWithLink = ({ to, children }) => {
-//   return (
-//     <Link
-//       to={to}
-//       className="flex justify-center items-center p-3.5 h-[41px] bg-white rounded-sm border border-sky-600 border-solid text-[#3F83E7] w-auto max-md:w-full"
-//     >
-//       {children}
-//     </Link>
-//   );
-// };
-
-// function Header() {
-//   const [menuOpen, setMenuOpen] = useState(false);
-//   const location = useLocation();
-//   const [hideButtons, setHideButtons] = useState(false);
-
-//   const toggleMenu = () => {
-//     setMenuOpen(!menuOpen);
-//   };
-
-//   useEffect(() => {
-//     const handleResize = () => {
-//       setHideButtons(window.innerWidth <= 768 || location.pathname === '/signin' || location.pathname === '/signup');
-//       if (window.innerWidth > 768) {
-//         setMenuOpen(false);
-//       }
-//     };
-
-//     window.addEventListener('resize', handleResize);
-//     handleResize(); // Call initially to set state based on current size
-//     return () => {
-//       window.removeEventListener('resize', handleResize);
-//     };
-//   }, [location.pathname]);
-
-//   return (
-//     <div>
-//       <div className="flex justify-between items-center relative z-10 gap-5 px-16 py-4 w-full h-[86px] bg-[#003B95] max-md:px-5">
-//         <div className="flex-auto my-auto text-2xl text-slate-100">
-//           Booking.com
-//         </div>
-//         {!hideButtons &&
-//           <div className={`flex flex-1 justify-end items-center gap-2`}>
-//             <ButtonWithLink to="/signup">
-//               Register
-//             </ButtonWithLink>
-//             <ButtonWithLink to="/signin">
-//               Sign in
-//             </ButtonWithLink>
-//           </div>
-//         }
-//         <div className="hidden max-md:flex items-center">
-//           <button
-//             onClick={toggleMenu}
-//             className="text-slate-100 focus:outline-none"
-//           >
-//             <svg
-//               className="w-6 h-6"
-//               fill="none"
-//               stroke="currentColor"
-//               viewBox="0 0 24 24"
-//               xmlns="http://www.w3.org/2000/svg"
-//             >
-//               <path
-//                 strokeLinecap="round"
-//                 strokeLinejoin="round"
-//                 strokeWidth="2"
-//                 d="M4 6h16M4 12h16m-7 6h7"
-//               ></path>
-//             </svg>
-//           </button>
-//         </div>
-//         {menuOpen && (
-//           <div className="absolute top-[86px] right-0 bg-[#003B95] w-full flex flex-col items-center max-md:flex">
-//             <ButtonWithLink to="/signup">
-//               Register
-//             </ButtonWithLink>
-//             <ButtonWithLink to="/signin">
-//               Sign in
-//             </ButtonWithLink>
-//           </div>
-//         )}
-//       </div>
-//       <div>
-//         <Outlet />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Header;
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Outlet } from "react-router-dom";
 
-const ButtonWithLink = ({ to, children, expanded }) => {
+const ButtonWithLink = ({ to, children, expanded, onClick }) => {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
     <Link
       to={to}
-      className={`flex justify-center items-center p-3.5 h-[41px] rounded-sm text-[#3F83E7] bg-[white] w-[120px] max-md:w-auto ${expanded ? 'bg-white' : ''} border border-sky-600 border-solid`}
+      onClick={handleClick}
+      className={`flex justify-center items-center p-3.5 h-[41px] rounded-sm text-[#3F83E7] bg-[white] w-[100px] max-md:w-full ${expanded ? 'bg-white' : ''} border border-sky-600 border-solid`}
     >
       {children}
     </Link>
@@ -118,12 +28,12 @@ function Header() {
 
 
   const toggleMenu = () => {
-    // console.log("Toggling menu");
     setMenuOpen(!menuOpen);
   };
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
+    window.location.href='/'
     setIsLoggedIn(false);
   };
 
@@ -157,14 +67,14 @@ function Header() {
           Booking.com
         </div>
         <div className="flex items-center">
-          {isSmallScreen && (
+          {isSmallScreen && !isLoggedIn && (
             <div className="absolute top-4 right-4">
               <button
                 onClick={toggleMenu}
                 className="text-slate-100 focus:outline-none"
               >
                 <svg
-                  className="w-10 h-10" // Increased size of hamburger icon
+                  className="w-10 h-10" 
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -183,7 +93,7 @@ function Header() {
         </div>
         <div className={`flex flex-1 justify-end items-center gap-2 ${isSmallScreen ? 'hidden' : 'max-md:flex'}`}>
           {isLoggedIn ? (
-            <button onClick={handleSignOut} className="flex justify-center items-center p-3.5 h-[41px] bg-white rounded-sm border border-sky-600 border-solid text-[#3F83E7] w-auto max-md:w-full">
+            <button onClick={handleSignOut} className="flex justify-center items-center p-3.5 h-[41px] bg-white rounded-sm border border-sky-600 border-solid text-[#3F83E7] w-auto max-md:w-full ">
               Sign out
             </button>
           ) : (
@@ -201,12 +111,12 @@ function Header() {
             </>
           )}
         </div>
-        {menuOpen && (
+        {menuOpen &&  (
           <div className="absolute top-[86px] right-0 bg-[#003B95] w-full flex flex-col items-center max-md:flex">
-            <ButtonWithLink to="/signup" expanded={menuOpen}>
+            <ButtonWithLink to="/signup" expanded={menuOpen} onClick={toggleMenu}>
               Register
             </ButtonWithLink>
-            <ButtonWithLink to="/signin" expanded={menuOpen}>
+            <ButtonWithLink to="/signin" expanded={menuOpen} onClick={toggleMenu}>
               Sign in
             </ButtonWithLink>
           </div>
