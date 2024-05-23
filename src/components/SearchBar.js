@@ -2,6 +2,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, { useEffect, useRef, useState } from 'react';
 import HotelCard from './hotelcard';
 import Dropdown from './dropdown';
+import LoaderComponent from './loader'; // Import the LoaderComponent
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -10,12 +11,13 @@ const SearchBar = () => {
   const [cities, setCities] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [sortOption, setSortOption] = useState('');
+  const [loading, setLoading] = useState(false); // Add loading state
   const dropdownRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [show, setShow] = useState(false);
-  const [clear, setClear] = useState(false);
   const [isCitySelected, setIsCitySelected] = useState(false);
 
+  // Handle user is logged in or not
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -23,6 +25,7 @@ const SearchBar = () => {
     }
   }, []);
 
+  // Fetch city names
   useEffect(() => {
     const fetchCities = async () => {
       const projectId = 'treoo5dhf86s';
@@ -41,6 +44,7 @@ const SearchBar = () => {
     fetchCities();
   }, []);
 
+  // Handle input change
   const handleInputChange = (e) => {
     if (!isLoggedIn) {
       window.location.href = '/login';
@@ -53,6 +57,7 @@ const SearchBar = () => {
     setFilteredCities(filtered.length > 0 ? filtered : ['City not found']);
   };
 
+  // Check city is there or not
   const handleCityClick = async (city) => {
     if (!isLoggedIn) {
       window.location.href = '/signin';
@@ -65,6 +70,7 @@ const SearchBar = () => {
     }
   };
 
+  // Fetch hotels data and sort option
   const fetchHotels = async (city, sort) => {
     try {
       let sortParam = '';
@@ -100,20 +106,7 @@ const SearchBar = () => {
     }
   };
 
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownVisible(false);
-    }
-  };
-
-  const clearSelection = () => {
-    setClear(true);
-    setShow(false);
-    setQuery('');
-    setIsCitySelected(false);
-    setFilteredCities(cities);
-  };
-
+  // Handle sort
   const handleSortSelect = (option) => {
     setSortOption(option);
     if (isCitySelected && query) {
@@ -121,11 +114,29 @@ const SearchBar = () => {
     }
   };
 
+  // Handle search button click, tof
   const handleSearchButtonClick = () => {
     if (isCitySelected && query) {
-      setShow(true);
-      fetchHotels(query, sortOption);
+      setLoading(true); // Show loader when search button is clicked
+      setShow(false);
+      fetchHotels(query, sortOption).then(() => {
+        setShow(true)
+      });
     }
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownVisible(false);
+    }
+  };
+
+  // When cross is clicked
+  const clearSelection = () => {
+    setShow(false);
+    setQuery('');
+    setIsCitySelected(false);
+    setFilteredCities(cities);
   };
 
   useEffect(() => {
@@ -171,7 +182,7 @@ const SearchBar = () => {
         </div>
       </div>
       {dropdownVisible && (
-        <ul className="relative bottom-5 left-[4px] md:relative md:bottom-5 md:left-[295px] w-[280px] bg-white border border-yellow-500 mt-1 max-h-40 overflow-y-auto z-10">
+        <ul className="relative bottom-5 left-[4px] md:relative md:bottom-5 md:left-[295px] w-[280px] bg-white border border-yellow-500 mt-1 max-h-40 overflow-y-auto z-20">
           {filteredCities.map((city, index) => (
             <li
               key={index}
@@ -183,13 +194,11 @@ const SearchBar = () => {
           ))}
         </ul>
       )}
-      {show &&
-        <div className="w-full flex flex-wrap gap-2.5 max-w-[1300px] mx-auto p-2.5">
-        {hotels.map((hotel) => {
-          return <HotelCard key={hotel._id} hotelInfo={hotel} room={hotel.rooms[0]} />;
-        })}
+        <div className="w-full h-[300px] flex flex-wrap gap-2.5 max-w-[1300px] mx-auto p-2.5 relative z-[-10]">
+          {show && hotels.map((hotel) => (
+            <HotelCard key={hotel._id} hotelInfo={hotel} room={hotel.rooms[0]} />
+          ))}
       </div>
-      }
     </div>
   );
 };

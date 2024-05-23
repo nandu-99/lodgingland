@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+//button
 const ButtonWithLink = ({ to, children, expanded, onClick }) => {
   const handleClick = () => {
     if (onClick) {
       onClick();
     }
   };
-
   return (
     <Link
       to={to}
@@ -25,12 +25,14 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hideButtons, setHideButtons] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
+  //usestates
 
-
+  //to handle hamburger
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  //signout
   const handleSignOut = () => {
     localStorage.removeItem('token');
     window.location.href='/'
@@ -53,6 +55,7 @@ function Header() {
     };
   }, [location.pathname]);
 
+  //to check loggedin or not
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
