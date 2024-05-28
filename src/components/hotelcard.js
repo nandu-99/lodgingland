@@ -1,7 +1,6 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 
 const ImageWithAlt = ({ src, alt, className }) => (
   <img loading="lazy" src={src} className={className} alt={alt} />
@@ -26,7 +25,6 @@ const InfoSection = ({rating,avgprice,room}) => (
 const HotelCard = ({hotelInfo, room}) => {
   const imageIndex = room.roomNumber % hotelInfo.images.length;
   return (
-    <Link to={`/hotel/${hotelInfo._id}`} className="hotel-card-link w-full p-6">
     <div className="flex flex-col lg:flex-row items-center justify-center w-full p-6 lg:gap-10 border border-gray shadow-xl">
       <div>
         <ImageWithAlt src={hotelInfo.images[imageIndex]} className="h-[254px] w-[304px]" />
@@ -49,7 +47,6 @@ const HotelCard = ({hotelInfo, room}) => {
         <InfoSection rating={hotelInfo.rating} avgprice={hotelInfo.avgCostPerNight} room={room} />
       </div>
     </div>
-    </Link>
   );
 };
 

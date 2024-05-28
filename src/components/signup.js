@@ -91,7 +91,7 @@ function SignUp() {
               id="nameInput"
               type="text"
               placeholder="Enter your name"
-              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-neutral-300"
+              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-black-300"
               aria-label="Your name"
               onChange={(e) => {
                 setUsername(e.target.value);
@@ -107,7 +107,7 @@ function SignUp() {
               id="emailInput"
               type="email"
               placeholder="Enter your email address"
-              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-neutral-300"
+              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-black-300"
               aria-label="emailInput"
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -126,7 +126,7 @@ function SignUp() {
               id="passwordInput"
               type="password"
               placeholder="Enter your password"
-              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-neutral-300"
+              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-black-300"
               aria-label="Password"
               onChange={(e) => {
                 setPassword(e.target.value);

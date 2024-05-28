@@ -2,7 +2,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, { useEffect, useRef, useState } from 'react';
 import HotelCard from './hotelcard';
 import Dropdown from './dropdown';
-import LoaderComponent from './loader'; // Import the LoaderComponent
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -11,7 +10,6 @@ const SearchBar = () => {
   const [cities, setCities] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [sortOption, setSortOption] = useState('');
-  const [loading, setLoading] = useState(false); // Add loading state
   const dropdownRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [show, setShow] = useState(false);
@@ -117,7 +115,6 @@ const SearchBar = () => {
   // Handle search button click, tof
   const handleSearchButtonClick = () => {
     if (isCitySelected && query) {
-      setLoading(true); // Show loader when search button is clicked
       setShow(false);
       fetchHotels(query, sortOption).then(() => {
         setShow(true)
