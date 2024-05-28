@@ -4,7 +4,6 @@ import SignIn from './components/signin';
 import SignUp from './components/signup';
 import "./index.css";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -18,12 +17,11 @@ function App() {
         {
           path: "signup",
           element: <SignUp />,
-        }
+        },
       ]
     }
   ]);
   return <RouterProvider router={router} />;
-  // return <HotelCard hotelInfo={hotelInfo}/>
 }
 
 export default App;

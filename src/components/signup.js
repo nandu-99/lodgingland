@@ -4,14 +4,44 @@ import {ToastContainer,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
+  //usestates for username, password, email
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+
+  //to check email
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+
+  //to check password
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar;
+  };
+
+
+  //to handlesignup
   const handleSignUp = (e) => {
     e.preventDefault();
     if (!username || !email || !password) {
       toast.error("Please fill in all fields");
+      return;
+    }
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    if (!validatePassword(password)) {
+      toast.error("Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters");
       return;
     }
     fetch("https://academics.newtonschool.co/api/v1/user/signup", {
@@ -30,9 +60,10 @@ function SignUp() {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status=="success") {
+        if (data.status === "success") {
           toast.success("User Created");
         } else {
+          //user already exists
           toast.error(data.message);
         }
       })
@@ -60,7 +91,7 @@ function SignUp() {
               id="nameInput"
               type="text"
               placeholder="Enter your name"
-              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-neutral-300"
+              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-black-300"
               aria-label="Your name"
               onChange={(e) => {
                 setUsername(e.target.value);
@@ -76,7 +107,7 @@ function SignUp() {
               id="emailInput"
               type="email"
               placeholder="Enter your email address"
-              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-neutral-300"
+              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-black-300"
               aria-label="emailInput"
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -95,7 +126,7 @@ function SignUp() {
               id="passwordInput"
               type="password"
               placeholder="Enter your password"
-              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-neutral-300"
+              className="block w-[397px] h-[46px] py-2.5 px-3 border border-solid border-blue-500 bg-white text-black-300"
               aria-label="Password"
               onChange={(e) => {
                 setPassword(e.target.value);

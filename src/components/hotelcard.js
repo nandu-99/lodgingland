@@ -25,7 +25,7 @@ const InfoSection = ({rating,avgprice,room}) => (
 const HotelCard = ({hotelInfo, room}) => {
   const imageIndex = room.roomNumber % hotelInfo.images.length;
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center w-full p-6 lg:gap-10 border border-gray">
+    <div className="flex flex-col lg:flex-row items-center justify-center w-full p-6 lg:gap-10 border border-gray shadow-xl">
       <div>
         <ImageWithAlt src={hotelInfo.images[imageIndex]} className="h-[254px] w-[304px]" />
       </div>
