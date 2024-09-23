@@ -4,10 +4,10 @@ Welcome to the Endsem Project - Booking.com repository! This project is a web ap
 To get started, follow these steps:
 
 1. Clone the repository:
-### `git clone https://github.com/nandu-99/Endsem-Project---Booking.com---Endsem-Project-Booking.com---r5frvas4jj06.git`
+### `git clone https://github.com/nandu-99/lodgingland.git`
 
 2. Navigate into the project directory:
-### `cd Endsem-Project---Booking.com---Endsem-Project-Booking.com---r5frvas4jj06`
+### `cd lodgingland`
 
 3. Install the dependencies:
 ### `npm install`
